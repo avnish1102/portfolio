@@ -11,6 +11,7 @@
   --primary-color:#39ff14;
   --accent-color:#00ffff;
   --card-bg:rgba(0,0,0,0.7);
+  --section-dark:#0a0a0a;
   --text-color:#39ff14;
   --transition:all 0.3s ease;
 }
@@ -18,37 +19,60 @@
   --primary-color:#0d6efd;
   --accent-color:#0d6efd;
   --card-bg:rgba(255,255,255,0.9);
+  --section-dark:#f1f1f1;
   --text-color:#111;
 }
 body{
   margin:0; font-family:'Courier New',monospace;
   background:#0d0d0d;
   color:var(--text-color); scroll-behavior:smooth;
+  position:relative;
+  overflow-x:hidden;
+}
+/* Hacker subtle background */
+body::before{
+  content:'';
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background: linear-gradient(0deg, rgba(0,255,0,0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index:-1;
+  animation: moveBg 10s linear infinite;
+}
+@keyframes moveBg{0%{background-position:0 0;}100%{background-position:100px 100px;}}
+
+/* Sidebar */
+#sidebar{
+  position:fixed; left:0; top:0; width:220px; height:100%;
+  background:rgba(0,0,0,0.85); backdrop-filter:blur(6px);
+  display:flex; flex-direction:column; align-items:center; padding-top:2rem;
+  box-shadow:2px 0 10px rgba(0,255,0,0.3); z-index:1000;
+}
+#sidebar .logo{font-size:1.5rem; font-weight:bold; margin-bottom:2rem; color:var(--primary-color);}
+#sidebar ul{list-style:none; padding:0; width:100%;}
+#sidebar ul li{width:100%;}
+#sidebar ul li a{
+  display:flex; align-items:center; gap:10px; padding:0.8rem 1rem;
+  color:var(--primary-color); text-decoration:none; width:100%; transition:var(--transition);
+}
+#sidebar ul li a.active, #sidebar ul li a:hover{
+  background:var(--accent-color); color:black; border-radius:0 25px 25px 0;
+}
+#sidebar #themeToggle{
+  margin-top:auto; margin-bottom:2rem; padding:0.5rem 1rem; font-size:1.5rem;
+  background:none; border:none; cursor:pointer; color:var(--primary-color);
 }
 
-/* Header */
-header{
-   top:0; width:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px);
-  box-shadow:0 4px 15px rgba(0,255,0,0.2); z-index:1000;
-}
-nav{display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem;}
-.logo{font-weight:bold; font-size:1.3rem; color:var(--primary-color);}
-nav ul{list-style:none; display:flex; gap:1.5rem; margin:0; padding:0;}
-nav ul li a{text-decoration:none; color:var(--primary-color); position:relative; transition:var(--transition);}
-nav ul li a::after{content:""; position:absolute; left:0; bottom:-3px; width:100%; height:2px; background:var(--accent-color); transform:scaleX(0); transition:var(--transition);}
-nav ul li a:hover::after, nav ul li a.active::after{transform:scaleX(1);}
-.hamburger{display:none; flex-direction:column; gap:5px; cursor:pointer;}
-.hamburger div{width:25px; height:3px; background:var(--primary-color); transition:all 0.3s;}
-#themeToggle{background:none;border:none;color:var(--primary-color);font-size:1.5rem;cursor:pointer;transition:var(--transition);}
+/* Adjust main content */
+main{margin-left:220px; transition:margin-left 0.3s;}
 @media(max-width:768px){
-  nav ul{display:none; flex-direction:column; position:absolute; top:60px; right:10px; background:var(--card-bg); padding:1rem; border-radius:10px;}
-  nav ul.show{display:flex;}
-  .hamburger{display:flex;}
+  #sidebar{width:60px;}
+  #sidebar ul li a span{display:none;}
+  main{margin-left:60px;}
 }
 
 /* Sections */
-main{padding-top:100px;}
-section{padding:4rem 2rem; max-width:1000px; margin:auto;}
+section{padding:4rem 2rem; max-width:1000px; margin:auto; border-radius:10px;}
+section.dark-section{background:var(--section-dark);}
 h2{text-align:center; margin-bottom:2rem; color:var(--accent-color); font-size:2rem; text-shadow:0 0 8px var(--accent-color);}
 .section-content{display:grid; gap:1.5rem;}
 .card{background:var(--card-bg); border-radius:10px; padding:1.5rem; box-shadow:0 0 15px rgba(0,255,0,0.3); transition:var(--transition);}
@@ -60,24 +84,27 @@ h2{text-align:center; margin-bottom:2rem; color:var(--accent-color); font-size:2
 #hero img{width:180px; height:180px; border-radius:50%; box-shadow:0 0 20px var(--primary-color); animation:floatImage 3s ease-in-out infinite;}
 @keyframes floatImage{0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0);}}
 .hero-buttons{display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;}
-.hero-buttons a{padding:0.6rem 1.2rem; background:var(--primary-color); color:black; border-radius:8px; text-decoration:none; transition:var(--transition);}
-.hero-buttons a:hover{background:var(--accent-color);}
+.hero-buttons a{padding:0.6rem 1.2rem; background:var(--primary-color); color:black; border-radius:8px; text-decoration:none; transition:var(--transition); font-weight:bold;}
+.hero-buttons a:hover{background:var(--accent-color); transform:scale(1.05);}
 
 /* Skills */
 .skills-grid{display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; max-width:100%; overflow-x:auto; padding-bottom:1rem;}
 .skills-grid::-webkit-scrollbar{height:6px;}
 .skills-grid::-webkit-scrollbar-thumb{background:var(--accent-color); border-radius:3px;}
 .skills-grid::-webkit-scrollbar-track{background:rgba(0,0,0,0.2);}
-.skill-card{padding:1rem; text-align:center; border:1px solid var(--primary-color); border-radius:10px; cursor:pointer; font-weight:bold; transition:var(--transition);}
+.skill-card{padding:1rem; text-align:center; border:1px solid var(--primary-color); border-radius:10px; cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:0.5rem; transition:var(--transition);}
 .skill-card:hover, .skill-card.active-skill{transform:scale(1.2); box-shadow:0 0 20px var(--accent-color); background:var(--accent-color); color:black;}
+.skill-card i{font-size:1.3rem;}
 
 /* Projects */
 .projects-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem;}
 .project-card{padding:1rem; border:1px solid var(--accent-color); border-radius:10px; transition:var(--transition);}
+.project-card img{width:100%; border-radius:10px; margin-bottom:0.5rem; transition:transform 0.3s ease;}
+.project-card img:hover{transform:scale(1.05);}
 .project-card:hover{transform:translateY(-5px); box-shadow:0 0 25px var(--accent-color);}
 .project-buttons{margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;}
 .project-buttons a{flex:1; text-align:center; padding:0.5rem; background:var(--primary-color); color:black; border-radius:8px; text-decoration:none; transition:var(--transition);}
-.project-buttons a:hover{background:var(--accent-color);}
+.project-buttons a:hover{background:var(--accent-color); transform:scale(1.05);}
 
 /* Contact */
 .contact-content{display:grid; gap:1rem; text-align:center; margin-bottom:1rem;}
@@ -91,39 +118,40 @@ form button:hover{background:var(--accent-color);}
 #backToTop{position:fixed; bottom:30px; right:30px; width:50px; height:50px; border-radius:50%; background:var(--primary-color); color:black; border:none; display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; box-shadow:0 4px 12px rgba(0,255,0,0.3); opacity:0; pointer-events:none; transition:all 0.3s ease; z-index:1000;}
 #backToTop.show{opacity:1; pointer-events:auto; animation:bounce 1s infinite;}
 @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* Scroll Animations */
 .hidden{opacity:0; transform:translateY(40px); transition:all 0.8s ease-out;}
 .show-animate{opacity:1; transform:translateY(0);}
 </style>
 </head>
 <body>
 
-<header>
-<nav>
-<div class="logo">Avnish Kumar</div>
-<div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-<ul id="navLinks">
-<li><a href="#hero" class="active">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#education">Education</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#certifications">Certifications</a></li>
-<li><a href="#achievements">Achievements</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-<button id="themeToggle">🌙</button>
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="logo">Avnish Kumar</div>
+  <ul id="sideLinks">
+    <li><a href="#hero" class="active"><i class="fas fa-home"></i><span> Home</span></a></li>
+    <li><a href="#about"><i class="fas fa-user"></i><span> About</span></a></li>
+    <li><a href="#education"><i class="fas fa-graduation-cap"></i><span> Education</span></a></li>
+    <li><a href="#skills"><i class="fas fa-code"></i><span> Skills</span></a></li>
+    <li><a href="#projects"><i class="fas fa-briefcase"></i><span> Projects</span></a></li>
+    <li><a href="#certifications"><i class="fas fa-certificate"></i><span> Certifications</span></a></li>
+    <li><a href="#achievements"><i class="fas fa-trophy"></i><span> Achievements</span></a></li>
+    <li><a href="#contact"><i class="fas fa-envelope"></i><span> Contact</span></a></li>
+  </ul>
+  <button id="themeToggle">🌙</button>
 </nav>
-</header>
 
 <main>
-<section id="hero" class="hidden">
+<!-- Hero -->
+<section id="hero" class="hidden dark-section">
 <img src="avnish1.jpg" alt="Avnish Kumar">
 <h1 class="animate__animated animate__fadeInDown">Avnish Kumar</h1>
 <p class="animate__animated animate__fadeInUp">Aspiring Data Science Professional | Python | ML | Data Analysis</p>
 <div class="hero-buttons">
-<a href="Avnish_Resume.pdf" target="_blank">📄 Resume</a>
-<a href="https://github.com/Avnish1102" target="_blank">🐱 GitHub</a>
-<a href="https://www.linkedin.com/in/avnish-kumar-680458243/" target="_blank">💼 LinkedIn</a>
+<a href="Avnish_Resume.pdf" target="_blank" rel="noopener noreferrer">📄 Resume</a>
+<a href="https://github.com/Avnish1102" target="_blank" rel="noopener noreferrer">🐱 GitHub</a>
+<a href="https://www.linkedin.com/in/avnish-kumar-680458243/" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
 <a href="mailto:mishraavnish2011421@gmail.com">✉️ Email</a>
 <a href="tel:+916304389719">📞 Call</a>
 </div>
@@ -139,7 +167,7 @@ form button:hover{background:var(--accent-color);}
 </section>
 
 <!-- Education -->
-<section id="education" class="hidden">
+<section id="education" class="hidden dark-section">
 <h2>Education</h2>
 <div class="section-content grid-2">
 <div class="card"><b>B.Tech in CSE (Data Science)</b><br>GNIT, Greater Noida (2023–2026)</div>
@@ -152,23 +180,25 @@ form button:hover{background:var(--accent-color);}
 <section id="skills" class="hidden">
 <h2>Skills</h2>
 <div class="skills-grid">
-<div class="skill-card">Python</div>
-<div class="skill-card">SQL</div>
-<div class="skill-card">Java</div>
-<div class="skill-card">HTML</div>
-<div class="skill-card">CSS</div>
-<div class="skill-card">Pandas</div>
-<div class="skill-card">NumPy</div>
-<div class="skill-card">Matplotlib</div>
-<div class="skill-card">Scikit-learn</div>
-<div class="skill-card">Data Visualization</div>
+  <div class="skill-card"><i class="fab fa-python"></i> Python</div>
+  <div class="skill-card"><i class="fas fa-database"></i> SQL</div>
+  <div class="skill-card"><i class="fab fa-java"></i> Java</div>
+  <div class="skill-card"><i class="fab fa-html5"></i> HTML</div>
+  <div class="skill-card"><i class="fab fa-css3-alt"></i> CSS</div>
+  <div class="skill-card"><i class="fas fa-chart-line"></i> Pandas</div>
+  <div class="skill-card"><i class="fas fa-chart-bar"></i> NumPy</div>
+  <div class="skill-card"><i class="fas fa-chart-area"></i> Matplotlib</div>
+  <div class="skill-card"><i class="fas fa-brain"></i> Scikit-learn</div>
+  <div class="skill-card"><i class="fas fa-chart-pie"></i> Data Visualization</div>
 </div>
 </section>
+
 <!-- Projects -->
-<section id="projects" class="hidden">
+<section id="projects" class="hidden dark-section">
 <h2>Projects</h2>
 <div class="projects-grid">
 <div class="project-card">
+<img src="project1.png" alt="Employee Management">
 <h3>Employee Management System</h3>
 <p>Python + SQLite CRUD operations (add/view/update/delete employees).</p>
 <div class="project-buttons">
@@ -178,6 +208,7 @@ form button:hover{background:var(--accent-color);}
 </div>
 
 <div class="project-card">
+<img src="project2.png" alt="Smart Home Security">
 <h3>Smart Home Security System</h3>
 <p>Microcontroller sensors for motion, door/window, and smoke detection.</p>
 <div class="project-buttons">
@@ -187,6 +218,7 @@ form button:hover{background:var(--accent-color);}
 </div>
 
 <div class="project-card">
+<img src="project3.png" alt="Traffic Light System">
 <h3>Traffic Light System Using Arduino</h3>
 <p>Automated traffic light simulation for smart city traffic management.</p>
 <div class="project-buttons">
@@ -196,6 +228,7 @@ form button:hover{background:var(--accent-color);}
 </div>
 
 <div class="project-card">
+<img src="project4.png" alt="Drishtikone – AI Eyes">
 <h3>Drishtikone – AI Eyes</h3>
 <p>AI web app using YOLOv8 & Web Speech API to guide visually impaired users in Hindi.</p>
 <div class="project-buttons">
@@ -205,6 +238,7 @@ form button:hover{background:var(--accent-color);}
 </div>
 
 <div class="project-card">
+<img src="project5.png" alt="Bio Vision">
 <h3>Bio Vision: AI-based Visual Expression Analysis</h3>
 <p>Python + CNN for secure and accurate facial expression recognition.</p>
 <div class="project-buttons">
@@ -225,7 +259,7 @@ form button:hover{background:var(--accent-color);}
 </section>
 
 <!-- Achievements -->
-<section id="achievements" class="hidden">
+<section id="achievements" class="hidden dark-section">
 <h2>Achievements</h2>
 <div class="section-content grid-2">
 <div class="card">Published research paper: “Fault Diagnosis Algorithm for Power Supply Lightning Protection Online Monitoring System”.</div>
@@ -253,10 +287,23 @@ form button:hover{background:var(--accent-color);}
 <button id="backToTop"><i class="fas fa-chevron-up"></i></button>
 
 <script>
-// Hamburger toggle
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
-hamburger.addEventListener('click', ()=> navLinks.classList.toggle('show'));
+// Sidebar Scrollspy
+const sections = document.querySelectorAll('main section, #hero');
+const sideLinks = document.querySelectorAll('#sideLinks a');
+function updateSideActive(){
+  let index = sections.length;
+  while(--index && window.scrollY + 120 < sections[index].offsetTop){}
+  sideLinks.forEach(link=>link.classList.remove('active'));
+  const active = document.querySelector(`#sideLinks a[href="#${sections[index].id}"]`);
+  if(active) active.classList.add('active');
+}
+window.addEventListener('scroll', updateSideActive);
+
+// Smooth scroll
+sideLinks.forEach(link=>link.addEventListener('click', e=>{
+  e.preventDefault();
+  document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+}));
 
 // Back to Top
 const backToTop = document.getElementById('backToTop');
@@ -272,22 +319,6 @@ const observer = new IntersectionObserver(entries=>{
   entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('show-animate'); });
 },{threshold:0.2});
 hiddenElements.forEach(el=>observer.observe(el));
-
-// Scrollspy
-const sections = document.querySelectorAll('main section, #hero');
-const navLinksArr = document.querySelectorAll('nav ul li a');
-function updateActiveLink(){
-  let index = sections.length;
-  while(--index && window.scrollY + 120 < sections[index].offsetTop){}
-  navLinksArr.forEach(link=>link.classList.remove('active'));
-  const active = document.querySelector(`nav ul li a[href="#${sections[index].id}"]`);
-  if(active) active.classList.add('active');
-}
-window.addEventListener('scroll', updateActiveLink);
-navLinksArr.forEach(link=>link.addEventListener('click', e=>{
-  e.preventDefault();
-  document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-}));
 
 // Skill Card Highlight
 const skillCards = document.querySelectorAll('.skill-card');
