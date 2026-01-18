@@ -1303,6 +1303,64 @@
             0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
             100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
+         /* Certificate Button */
+.cert-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--primary-color);
+    background: linear-gradient(135deg, var(--glass-bg), rgba(255,255,255,0.02));
+    border: 1px solid var(--glass-border);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.cert-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    z-index: -1;
+}
+
+.cert-btn:hover {
+    color: var(--section-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 217, 255, 0.4);
+}
+
+.cert-btn:hover::before {
+    transform: translateX(0);
+}/* Certifications Layout Fix */
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.cert-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Limit description height */
+.cert-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
     </style>
 </head>
 <body>
@@ -1541,21 +1599,66 @@
         </section>
 
         <!-- Certifications -->
-        <section id="certifications" class="hidden">
-            <h2>Certifications</h2>
-            <div class="section-content grid-2">
-                <div class="card">
-                    <h3>Introduction to Cyber Security</h3>
-                    <p><strong>CISCO</strong> | June 2022</p>
-                    <p>Comprehensive introduction to cybersecurity principles, threats, and defense mechanisms.</p>
-                </div>
-                <div class="card">
-                    <h3>Cybersecurity Essentials</h3>
-                    <p><strong>CISCO</strong> | July 2022</p>
-                    <p>Advanced cybersecurity concepts including network security, cryptography, and risk management.</p>
-                </div>
+         <section id="certifications" class="hidden">
+    <h2>Certifications</h2>
+
+    <div class="cert-grid">
+
+        <div class="card cert-card">
+            <div>
+                <h3>Data Science with Python</h3>
+                <p><strong>E&ICT Academy, IIT Kanpur (MeitY Initiative)</strong> | Jul–Aug 2025</p>
+                <p class="cert-desc">
+                    Hands-on training in Python for data science, covering data handling,
+                    analysis techniques, and foundational machine learning concepts through
+                    structured academic learning.
+                </p>
             </div>
-        </section>
+
+            <a href="Certificate - E&ICT Academy, IIT Kanpur.pdf"
+               target="_blank"
+               class="cert-btn">
+                <i class="fas fa-file-pdf"></i> View Certificate
+            </a>
+        </div>
+
+        <div class="card cert-card">
+            <div>
+                <h3>Introduction to Cyber Security</h3>
+                <p><strong>CISCO</strong> | June 2022</p>
+                <p class="cert-desc">
+                    Comprehensive introduction to cybersecurity principles,
+                    threats, and defense mechanisms.
+                </p>
+            </div>
+
+            <a href="AvnishKumar-DSEU_CYB_01-certificate.pdf"
+               target="_blank"
+               class="cert-btn">
+                <i class="fas fa-file-pdf"></i> View Certificate
+            </a>
+        </div>
+
+        <div class="card cert-card">
+            <div>
+                <h3>Cybersecurity Essentials</h3>
+                <p><strong>CISCO</strong> | July 2022</p>
+                <p class="cert-desc">
+                    Advanced cybersecurity concepts including network security,
+                    cryptography, and risk management.
+                </p>
+            </div>
+
+            <a href="AvnishKumar-DSEU_CYBESS_01-certificate.pdf"
+               target="_blank"
+               class="cert-btn">
+                <i class="fas fa-file-pdf"></i> View Certificate
+            </a>
+        </div>
+
+    </div>
+</section>
+
 
         <!-- Achievements -->
         <section id="achievements" class="hidden dark-section">
@@ -1855,6 +1958,7 @@
     </script>
 </body>
 </html>
+
 
 
 
